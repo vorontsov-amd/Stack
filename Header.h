@@ -20,7 +20,7 @@ enum ErrorStatus
 	STATUS_OK,
 	NULL_PTR_STACK,
 	NULL_PTR_DATA,
-	ÑAPACITY_LESS_THAN_ZERO,
+	CAPACITY_LESS_THAN_ZERO,
 	SIZE_LESS_THAN_ZERO,
 	CAPACITY_LESS_THAN_SIZE,
 	STACK_CANARY_DAMAGED,
@@ -68,7 +68,7 @@ struct Stack
 	long long upCanary2;
 	element* data;
 	long long size;
-	long long capañity;
+	long long capaÃ±ity;
 	ErrorStatus status;
 	Hash hash;
 	long long downCanary1;
@@ -101,7 +101,7 @@ void StackPush(Stack* stack, element value);
 //! The function allocates additional space if the stack has run out. Called inside the StackPush function
 //! 
 //! @param [in] stack			pointer to type Stack
-//! @param [in] new_capacity	New stack capacity. Should be larger than the previous one
+//! @param [in] new_capacity		New stack capacity. Should be larger than the previous one
 //!
 //---------------------------------------------------------------------------------------------------------------------------------
 void StackResize(Stack* stack, long long new_capacity);
@@ -219,7 +219,7 @@ unsigned long long CreateBlock64(element* data, size_t nBlock);
 //! @param [in] size			size of array
 //! @param [in] hash			pointer to hash
 //!
-//!	@param [out] *hash			hash
+//! @param [out] *hash			hash
 //!
 //! @return 8-bit words
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -233,7 +233,7 @@ void Hash8bit(element* data, size_t size, unsigned long long* hash);
 //! @param [in] size			size of array
 //! @param [in] hash			pointer to hash
 //!
-//!	@param [out] *hash			hash
+//! @param [out] *hash			hash
 //!
 //! @return 8-bit words
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -247,7 +247,7 @@ void Hash16bit(element* data, size_t size, unsigned long long* hash);
 //! @param [in] size			size of array
 //! @param [in] hash			pointer to hash
 //!
-//!	@param [out] *hash			hash
+//! @param [out] *hash			hash
 //!
 //! @return 8-bit words
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -261,7 +261,7 @@ void Hash32bit(element* data, size_t size, unsigned long long* hash);
 //! @param [in] size			size of array
 //! @param [in] hash			pointer to hash
 //! 
-//!	@param [out] *hash			hash
+//! @param [out] *hash			hash
 //!
 //! @return 8-bit words
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -272,7 +272,7 @@ void Hash64bit(element* data, size_t size, unsigned long long* hash);
 //! The function rotates the bits of a 64-bit data type to the left
 //! 
 //! @param [in] object			The object, the cyclic permutation of the bits of which needs to be done	
-//! @param [in] n				How many bits to rotate
+//! @param [in] n			How many bits to rotate
 //!
 //! @return Bit-swapped object
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -288,13 +288,13 @@ unsigned long long RotateLeft(unsigned long long object, int n);
 void UpdateHash(Stack* stack);
 
 
-#define CHECKSTACK {									    \
-	if (StackOk(stack) == false)					         \
-	{													      \
-		StackDump(stack, __FUNCSIG__);						   \
+#define CHECKSTACK {							    \
+	if (StackOk(stack) == false)					     \
+	{								      \
+		StackDump(stack, __FUNCSIG__);				       \
 		puts("An error has occurred. We will fix it soon");		\
-		exit(EXIT_FAILURE);										 \
-	}														      \
+		exit(EXIT_FAILURE);						 \
+	}						       		          \
 }
 
 #define StkData(data ,i) (*(element*)((char*)(data) + 2 * sizeof(long long) + (i) * sizeof(*data)))
