@@ -112,6 +112,7 @@ void StackPop(Stack* stack, element* value)
 		*value = 0;
 		StackDump(stack, "Incorrect use of the stack. Trying to use StackPop function for stack size = 0");
 	}
+	CHECKSTACK;
 }
 
 
@@ -247,4 +248,3 @@ void StackDump(const Stack* stack, const char* errmessage)
 	fprintf(errfile, "\t Canary 3 = %llX\n", stack->downCanary1);
 	fprintf(errfile, "\t Canary 4 = %llX\n\t}\n", stack->downCanary2);
 }
-
