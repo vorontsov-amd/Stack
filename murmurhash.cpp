@@ -4,9 +4,9 @@
 
 
 
-unsigned long long MurMurHash(element* data, size_t capacity, int seed)
+unsigned long long StackHash(element* data, long long capacity, int seed)
 {
-	unsigned long long hash = 1;
+	unsigned long long hash = seed;
 
 	switch (sizeof(*data))
 	{
@@ -14,15 +14,16 @@ unsigned long long MurMurHash(element* data, size_t capacity, int seed)
 	case 2: Hash16bit(data, capacity, &hash); break;
 	case 4: Hash32bit(data, capacity, &hash); break;
 	case 8: Hash64bit(data, capacity, &hash); break;
+	default: Hash64bit(data, capacity, &hash); break;
 	}
 	return hash;
 }
 
-unsigned long long RotateLeft(unsigned long long k, int n)
+unsigned long long RotateLeft(unsigned long long object, int n)
 {
-	unsigned long long temp = (k >> (sizeof(k) * CHAR_BIT - n));
-	k = k << n;
-	return temp | k;
+	unsigned long long temp = (object >> (sizeof(object) * CHAR_BIT - n));
+	object = object << n;
+	return temp | object;
 }
 
 unsigned long long CreateBlock8(char* data, size_t nBlock)
@@ -218,11 +219,11 @@ void Hash64bit(element* data, size_t size, unsigned long long* hash)
 }
 
 
-unsigned long long SimpleHash(size_t value, int seed)
+unsigned long long ValueHash(long long value, int seed)
 {
-	unsigned long long hash = 1;
+	unsigned long long hash = seed;
 	
-	unsigned long long k = CreateBlock64((long long*)(&value), 0);
+	unsigned long long k = value;
 	k *= c1;
 	k = RotateLeft(k, r1);
 	k *= c2;
@@ -243,7 +244,7 @@ unsigned long long SimpleHash(size_t value, int seed)
 
 void UpdateHash(Stack* stack)
 {
-	stack->hash.hashCapacity = SimpleHash(stack->capaÒity, 1);
-	stack->hash.hashSize = SimpleHash(stack->size, 1);
-	stack->hash.hashData = MurMurHash(stack->data, stack->capaÒity, 1);
+	stack->hash.hashCapacity = ValueHash(stack->capa—Åity, 1);
+	stack->hash.hashSize = ValueHash(stack->size, 1);
+	stack->hash.hashData = StackHash(stack->data, stack->capa—Åity, 1);
 }
