@@ -6,7 +6,6 @@
 #include <stdio.h>
 #define NDEBUG
 #include <assert.h>
-#include "TXlib.h"
 #include <stdlib.h>
 #include <limits.h>
 
@@ -68,7 +67,7 @@ struct Stack
 	long long upCanary2;
 	element* data;
 	long long size;
-	long long capañity;
+	long long capaсity;
 	ErrorStatus status;
 	Hash hash;
 	long long downCanary1;
@@ -176,7 +175,7 @@ unsigned long long ValueHash(long long value, int seed);
 //!
 //! @return 8-bit words
 //---------------------------------------------------------------------------------------------------------------------------------
-unsigned long long CreateBlock8(element* data, size_t nBlock);
+unsigned long long CreateBlock8(char* data, size_t nBlock);
 
 
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -187,7 +186,7 @@ unsigned long long CreateBlock8(element* data, size_t nBlock);
 //!
 //! @return 16-bit words
 //---------------------------------------------------------------------------------------------------------------------------------
-unsigned long long CreateBlock16(element* data, size_t nBlock);
+unsigned long long CreateBlock16(short* data, size_t nBlock);
 
 
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -198,7 +197,7 @@ unsigned long long CreateBlock16(element* data, size_t nBlock);
 //!
 //! @return 32-bit words
 //---------------------------------------------------------------------------------------------------------------------------------
-unsigned long long CreateBlock32(element* data, size_t nBlock);
+unsigned long long CreateBlock32(int* data, size_t nBlock);
 
 
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -209,7 +208,7 @@ unsigned long long CreateBlock32(element* data, size_t nBlock);
 //!
 //! @return 64-bit words
 //---------------------------------------------------------------------------------------------------------------------------------
-unsigned long long CreateBlock64(element* data, size_t nBlock);
+unsigned long long CreateBlock64(long long* data, size_t nBlock);
 
 
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -288,16 +287,15 @@ unsigned long long RotateLeft(unsigned long long object, int n);
 void UpdateHash(Stack* stack);
 
 
-#define CHECKSTACK {							    \
-	if (StackOk(stack) == false)					     \
-	{								      \
-		StackDump(stack, __FUNCSIG__);				       \
-		puts("An error has occurred. We will fix it soon");		\
-		exit(EXIT_FAILURE);						 \
-	}						       		          \
+#define CHECKSTACK {									\
+	if (StackOk(stack) == false)							 \
+	{									          \
+		StackDump(stack, __FUNCSIG__);					     	   \
+		puts("An error has occurred. We will fix it soon");			    \
+		exit(EXIT_FAILURE);							     \
+	}						       				      \
 }
 
 #define StkData(data ,i) (*(element*)((char*)(data) + 2 * sizeof(long long) + (i) * sizeof(*data)))
 
 #endif // !HEADER
-
