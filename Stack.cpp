@@ -1,6 +1,7 @@
 #include "Header.h"
 
 
+
 void StackCtor(Stack* stack, long long capaсity)
 {
 	assert(stack);
@@ -127,17 +128,17 @@ void StackDtor(Stack* stack)
 bool StackOk(Stack* stack)
 {
 	assert(stack);
-	
+
 	bool status = true;
 
 	if (stack->data == NULL)
 	{
-		stack->status = NULL_PTR_DATA; 
+		stack->status = NULL_PTR_DATA;
 		status = false;
 	}
 	if (stack->capaсity < 0)
 	{
-		stack->status = СAPACITY_LESS_THAN_ZERO;
+		stack->status = CAPACITY_LESS_THAN_SIZE;
 		status = false;
 	}
 	if (stack->size < 0)
@@ -147,7 +148,7 @@ bool StackOk(Stack* stack)
 	}
 	if (stack->size > stack->capaсity)
 	{
-		stack->status = CAPACITY_LESS_THAN_SIZE;
+		stack->status = CAPACITY_LESS_THAN_ZERO;
 		status = false;
 	}
 	if (stack->upCanary1 != 0xFA11ED)
@@ -199,7 +200,7 @@ bool StackOk(Stack* stack)
 	{
 		stack->status = HASH_SIZE_MISMATCH;
 		status = false;
-	} 
+	}
 	if (stack->hash.hashData != StackHash(stack->data, stack->capaсity, 1))
 	{
 		stack->status = HASH_DATA_MISMATCH;
@@ -231,18 +232,15 @@ void StackDump(const Stack* stack, const char* errmessage)
 	fprintf(errfile, "\t\t C[0] = %llX\n", *(long long*)((char*)stack->data + 0));
 	fprintf(errfile, "\t\t C[1] = %llX\n", *(long long*)((char*)stack->data + sizeof(long long)));
 
-	if (stack->size > 0 and stack->capaсity > 0)
+	for (long long i = 0; i < stack->size; i++)
 	{
-		for (long long i = 0; i < stack->size; i++)
-		{
-			fprintf(errfile, "\t\t *[%lld] = " EL "\n", i + 2, StkData(stack->data, i));
-		}
-		for (long long i = stack->size; i <= stack->capaсity; i++)
-		{
-			fprintf(errfile, "\t\t  [%lld] = " EL "\n", i + 2, StkData(stack->data, i));
-		}
+		fprintf(errfile, "\t\t *[%lld] = " EL "\n", i + 2, StkData(stack->data, i));
 	}
-	
+	for (long long i = stack->size; i <= stack->capaсity; i++)
+	{
+		fprintf(errfile, "\t\t  [%lld] = " EL "\n", i + 2, StkData(stack->data, i));
+	}
+
 	fprintf(errfile, "\t\t C[%lld] = %llX\n", stack->capaсity + 2, *(long long*)((char*)stack->data + 2 * sizeof(long long) + stack->capaсity * sizeof(*stack->data)));
 	fprintf(errfile, "\t\t C[%lld] = %llX\n\t\t}\n", stack->capaсity + 3, *(long long*)((char*)stack->data + 2 * sizeof(long long) + stack->capaсity * sizeof(*stack->data) + sizeof(long long)));
 	fprintf(errfile, "\t Canary 3 = %llX\n", stack->downCanary1);
